@@ -12,15 +12,23 @@
 import time
 import getpass
 
-
-current_hour = int(time.strftime("%H"))
 username = getpass.getuser()
 
-if 0 <= current_hour < 5:
-    print(f"Доброй ночи, {username}")
-elif 5 <= current_hour < 10:
-    print(f"Доброе утро, {username}")
-elif 10 <= current_hour < 15:
-    print(f"Добрый день, {username}")
-else:
-    print(f"Добрый вечер, {username}")
+
+def hello_local_time():
+    global username
+    current_hour = int(time.strftime("%H"))
+
+    if 0 <= current_hour < 5:
+        print(f"Доброй ночи, {username}")
+    elif 5 <= current_hour < 10:
+        print(f"Доброе утро, {username}")
+    elif 10 <= current_hour < 15:
+        print(f"Добрый день, {username}")
+    else:
+        print(f"Добрый вечер, {username}")
+
+
+if __name__ == "__main__":
+    print("Функция получения локального времени:")
+    hello_local_time()
