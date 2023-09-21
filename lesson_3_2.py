@@ -28,6 +28,10 @@
 import re
 import string
 
+# test_data
+# ru_string = 'Ну что ж я, я найти решения правильного не смогу ж? Смогу ж конечно, я ж старательный все ж таки.'
+# en_string = 'Some some? english, text TEXT text.'
+# arabic_string = 'يولد جميع الناس حراراً ,متساوين في الكرامة و,الحقوق.'
 
 user_text = input("Введите текст:\n")
 
@@ -39,7 +43,8 @@ except ValueError as e:
 
 
 def check_text_is_ru_or_eng(text):
-    if not re.search("[а-яА-ЯёЁ]", text) or not re.search("[a-zA-Z]", text):
+    new_text_data = re.sub('[а-яА-ЯёЁa-zA-Z\d+_]', '', text)
+    if re.search("\w", new_text_data):
         raise Exception("Поддерживаетя только русский или английский алфавит!")
 
 
