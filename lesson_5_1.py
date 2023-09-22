@@ -15,22 +15,47 @@ import re
 import string
 
 # test_data
-# ru_string = 'Ну что ж я, я найти решения правильного не смогу ж? Смогу ж конечно, я ж старательный все ж таки.'
-# en_string = 'Some some? english, text TEXT text.'
-# arabic_string = 'يولد جميع الناس حراراً ,متساوين في الكرامة و,الحقوق.'
+# string = 'A simpLe teXt in English To cheCk the tasK'
 
-user_text = input("Введите текст:\n")
+
+# user_text = input("Введите текст:\n")
+user_text = 'A simpLe teXt in English To cheCk the tasK'
 
 
 def check_text_is_eng(text):
-    text_without_punctuation = text.translate(str.maketrans('', '', string.punctuation))
-    new_text_data = re.sub('[a-zA-Z\d+_]', '', text_without_punctuation)
+    new_text_data = re.sub('[a-zA-Z]', '', text)
     if re.search("\w", new_text_data):
-        raise Exception("Only English supported!")
+        raise Exception("Only English letters supported!")
+
+
+def replace_next_letter(text):
+    new_string = ''
+    for symbol in text:
+        if symbol.isalpha():
+            ascii_code = ord(symbol)
+            new_letter = chr(ascii_code + 1)
+            new_string += new_letter
+        else:
+            new_string += symbol
+    return new_string
+
+
+
+def replase_text_register(text):
+    new_string = ''
+    for symbol in text:
+        if symbol.isalpha():
+            if symbol.isupper():
+                new_string += symbol.lower()
+            elif symbol.islower():
+                new_string += symbol.upper()
+        else:
+            new_string += symbol
+    return new_string
 
 
 def encoder(text):
-    pass
+    return(replase_text_register(replace_next_letter(text)))
 
 
 def decryptor(text):
@@ -40,6 +65,7 @@ def decryptor(text):
 def main(text):
     check_text_is_eng(text)
     encoder_text = encoder(text)
+    print("Base text: \nA simpLe teXt in English To cheCk the tasK")
     print("encoder_text:\n", encoder_text)
     print("decryptor_text:\n", decryptor(encoder_text))
 
