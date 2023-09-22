@@ -15,11 +15,9 @@ import re
 import string
 
 # test_data
-# string = 'A simpLe teXt in English To cheCk the tasK'
+# user_text = 'A simpLe teXt in English To cheCk the tasK'
 
-
-# user_text = input("Введите текст:\n")
-user_text = 'A simpLe teXt in English To cheCk the tasK'
+user_text = input("Введите текст:\n")
 
 
 def check_text_is_eng(text):
@@ -28,12 +26,24 @@ def check_text_is_eng(text):
         raise Exception("Only English letters supported!")
 
 
-def replace_next_letter(text):
+def replace_on_next_letter(text):
     new_string = ''
     for symbol in text:
         if symbol.isalpha():
             ascii_code = ord(symbol)
             new_letter = chr(ascii_code + 1)
+            new_string += new_letter
+        else:
+            new_string += symbol
+    return new_string
+
+
+def replace_on_previous_letter(text):
+    new_string = ''
+    for symbol in text:
+        if symbol.isalpha():
+            ascii_code = ord(symbol)
+            new_letter = chr(ascii_code - 1)
             new_string += new_letter
         else:
             new_string += symbol
@@ -55,11 +65,11 @@ def replase_text_register(text):
 
 
 def encoder(text):
-    return(replase_text_register(replace_next_letter(text)))
+    return(replase_text_register(replace_on_next_letter(text)))
 
 
 def decryptor(text):
-    pass
+    return(replase_text_register(replace_on_previous_letter(text)))
 
 
 def main(text):
