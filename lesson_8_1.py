@@ -39,7 +39,7 @@ def _get_db_list(db_file_path):
 
 class UserDs:
     def __init__(self, db_path):
-        self.db_path = _get_db_list(db_path)
+        self.db = _get_db_list(db_path)
         self.id = 'id'
         self.name = 'name'
         self.fname = 'fname'
@@ -49,7 +49,8 @@ class UserDs:
 
     def _db_searching(self, key, value, older=None, younger=None):
         new_array = []
-        for i in self.db_path:
+        db = self.db
+        for i in db:
             if older:
                 if i[key] > value:
                     new_array.append(i)
@@ -81,7 +82,8 @@ class UserDs:
 
     def get_collisions(self):
         collisions_list = []
-        for i in self.db_path:
+        db = self.db
+        for i in db:
             if i[self.is_teen]:
                 if county_adult_age[i[self.county]] < i[self.age]:
                     collisions_list.append(i)
