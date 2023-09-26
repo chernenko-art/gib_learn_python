@@ -24,6 +24,13 @@
 
 import json
 
+county_adult_age = {
+    'Thailand': 20,
+    'USA': 21,
+    'Japan': 20,
+    'Russia': 18
+}
+
 
 def _get_db_list(db_file_path):
     with open(db_file_path, "r") as f:
@@ -73,7 +80,15 @@ class UserDs:
         return self._db_searching(key=self.is_teen, value=is_teen)
 
     def get_collisions(self):
-        pass
+        collisions_list = []
+        for i in self.db_path:
+            if i[self.is_teen]:
+                if county_adult_age[i[self.county]] < i[self.age]:
+                    collisions_list.append(i)
+            else:
+                if county_adult_age[i[self.county]] > i[self.age]:
+                    collisions_list.append(i)
+        return collisions_list
 
 
 def main():
@@ -84,7 +99,15 @@ def main():
     all_users_younger_or_equal_age = user_ds.get_all_users_younger_or_equal_age(age=29)
     all_adults = user_ds.get_all_adults()
     all_teens = user_ds.get_all_teens()
-    print(all_adults)
+    collisions = user_ds.get_collisions()
+    print(f"""
+all_users_from_county:\n{all_users_from_county}\n
+all_users_equal_age:\n{all_users_equal_age}\n
+all_users_older_age:\n{all_users_older_age}\n
+all_users_younger_or_equal_age:\n{all_users_younger_or_equal_age}\n
+all_adults:\n{all_adults}\n
+all_teens:\n{all_teens}\n
+collisions:\n{collisions}\n""")
 
 
 if __name__ == "__main__":
