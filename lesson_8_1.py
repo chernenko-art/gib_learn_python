@@ -94,7 +94,7 @@ class UserDs:
 
 
 def main():
-    user_ds = UserDs(db_path="users_ds.json")
+    user_ds = UserDs(db_path="lesson8_users_ds.json")
     all_users_from_county = user_ds.get_all_users_from_county(county="Russia")
     all_users_equal_age = user_ds.get_all_users_equal_age(age=29)
     all_users_older_age = user_ds.get_all_users_older_age(age=29)
