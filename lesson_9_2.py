@@ -33,51 +33,24 @@ class GameImproved(Game):
         else:
             computer_marker = "X"
         list_without_zero_x = [i for i in self.canvas.keys() if self.canvas[i] != '0' and self.canvas[i] != 'X']
-        self.canvas[random.choice(list_without_zero_x)] = computer_marker
+        random_field = random.choice(list_without_zero_x)
+        self.canvas[random_field] = computer_marker
 
     def game_over_check_improved(self, user_marker):
-        line_1 = set([self.canvas["1"]] + [self.canvas["2"]] + [self.canvas["3"]])
-        line_2 = set([self.canvas["4"]] + [self.canvas["5"]] + [self.canvas["6"]])
-        line_3 = set([self.canvas["7"]] + [self.canvas["8"]] + [self.canvas["9"]])
-        column_1 = set([self.canvas["1"]] + [self.canvas["4"]] + [self.canvas["7"]])
-        column_2 = set([self.canvas["2"]] + [self.canvas["5"]] + [self.canvas["8"]])
-        column_3 = set([self.canvas["3"]] + [self.canvas["6"]] + [self.canvas["9"]])
-        diag_1 = set([self.canvas["1"]] + [self.canvas["5"]] + [self.canvas["9"]])
-        diag_2 = set([self.canvas["7"]] + [self.canvas["5"]] + [self.canvas["3"]])
-
-        if len(set(self.canvas.values())) == 2:
-            print("Draw!")
-            return True
-        elif len(line_1) == 1:
-            self._check_winner(line_1, user_marker)
-            return True
-        elif len(line_2) == 1:
-            self._check_winner(line_2, user_marker)
-            return True
-        elif len(line_3) == 1:
-            self._check_winner(line_3, user_marker)
-            return True
-        elif len(column_1) == 1:
-            self._check_winner(column_1, user_marker)
-            return True
-        elif len(column_2) == 1:
-            self._check_winner(column_2, user_marker)
-            return True
-        elif len(column_3) == 1:
-            self._check_winner(column_3, user_marker)
-            return True
-        elif len(diag_1) == 1:
-            self._check_winner(diag_1, user_marker)
-            return True
-        elif len(diag_2) == 1:
-            self._check_winner(diag_2, user_marker)
-            return True
-
-    def _check_winner(self, line, user_marker):
-        if user_marker in line:
-            print("You win!")
+        if user_marker == "X":
+            computer_marker = "0"
         else:
-            print("You lose!")
+            computer_marker = "X"
+        win_combinations = [(1, 2, 3), (4, 5, 6), (7, 8, 9),
+                            (1, 4, 7), (2, 5, 9), (3, 6, 9),
+                            (1, 5, 9), (7, 5, 3)]
+        for combination in win_combinations:
+            if all([self.canvas[str(i)] == user_marker for i in combination]):
+                print("You win!")
+                return True
+            elif all([self.canvas[str(i)] == computer_marker for i in combination]):
+                print("You lose!")
+                return True
 
 
 def main():
