@@ -36,18 +36,18 @@
 class Game:
 
     def __init__(self):
-        self.canvas = {"1": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9, "10": 10}
+        self.canvas = {"1": "1", "2": "2", "3": "3", "4": "4", "5": "5", "6": "6", "7": "7", "8": "8", "9": "9", "10": "10"}
 
     def user_action(self):
-        num = int(input("Select the field number:\n"))
-        while self.canvas[str(num)] == 0 or self.canvas[str(num)] == 'X':
+        num = input("Select the field number:\n")
+        while self.canvas[num] == "0" or self.canvas[num] == 'X':
             print("This field is busy!")
-            num = int(input("Select the field number:\n"))
-        self.canvas[str(num)] = "X"
+            num = input("Select the field number:\n")
+        self.canvas[num] = "X"
 
     def computer_action(self):
-        list_without_zero_x = [int(i) for i in self.canvas.keys() if self.canvas[i] != 0 and self.canvas[i] != 'X']
-        self.canvas[str(min(list_without_zero_x))] = 0
+        list_without_zero_x = [int(i) for i in self.canvas.keys() if self.canvas[i] != '0' and self.canvas[i] != 'X']
+        self.canvas[str(min(list_without_zero_x))] = "0"
 
     def print_canvas(self):
         val_list = [value for value in self.canvas.values()]
