@@ -38,7 +38,11 @@ class Game:
     def __init__(self):
         self.canvas = {"1": 1, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9, "10": 10}
 
-    def user_action(self, num):
+    def user_action(self):
+        num = int(input("Select the field number:\n"))
+        while self.canvas[str(num)] == 0 or self.canvas[str(num)] == 'X':
+            print("This field is busy!")
+            num = int(input("Select the field number:\n"))
         self.canvas[str(num)] = "X"
 
     def computer_action(self):
@@ -52,14 +56,24 @@ class Game:
         {val_list[3]} {val_list[4]} {val_list[5]}
         {val_list[6]} {val_list[7]} {val_list[8]}\n""")
 
+    def game_over_check(self):
+        game_over = input("Game over? (y/n)\n")
+        if game_over == "y":
+            return True
+
 
 def main():
     game = Game()
-    game.user_action(5)
-    game.computer_action()
-    game.user_action(9)
-    game.computer_action()
-    game.print_canvas()
+
+    while True:
+        game.user_action()
+        game.print_canvas()
+        if game.game_over_check():
+            break
+        game.computer_action()
+        game.print_canvas()
+        if game.game_over_check():
+            break
 
 
 if __name__ == "__main__":
