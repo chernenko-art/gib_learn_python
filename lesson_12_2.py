@@ -15,22 +15,48 @@
 # последовательно вызывая нужные методы и оборачивая проверки в IF примерно так:  IF (EPXECTED_CONDITION) print(""All good"") ELSE print(""All bad"")"
 
 import time
+import random
 from lesson_12_1 import Pistol
+from lesson_12_1 import test_shot_without_reload
+from lesson_12_1 import test_shot_with_reload
 
 
 class PistolModern(Pistol):
 
     def __init__(self):
         super().__init__()
-        self.chance_of_failure = 0.1
-        self.locked = False
+        self.locked = random.choices([True, False], weights=[10, 90])
         self.normal_temperature = 20
         self.max_temperature = 60
         self.timer = time.perf_counter()
 
+    def shot(self, shot_num):
+        while shot_num > 0 and self.magazins >= 0 and self.bullets != 0:
+            if self.locked[0]:
+                self.locked = True
+                raise Exception("LockedException")
+            self.bullets -= 1
+            shot_num -= 1
+
+            if self.bullets == 0 and self.magazins != 0:
+                self.magazins -= 1
+                self.bullets = 15
+
+    def reload(self):
+        if self.locked:
+            self.locked = random.choices([True, False], weights=[10, 90])
+        if self.magazins == 0:
+            raise Exception("OutOfMagazins")
+
+        self.magazins -= 1
+        self.bullets = 15
+
 
 def main():
-    pass
+    pistol = PistolModern()
+    print(pistol.locked)
+    test_shot_without_reload(pistol, shot_num=100)
+    # test_shot_with_reload(pistol, shot_num=5)
 
 
 if __name__ == "__main__":
