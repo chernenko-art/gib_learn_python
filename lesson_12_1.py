@@ -15,33 +15,53 @@
 
 class Pistol:
 
-    def __init__(self, magazins=10, bullets=15):
-        self.magazins = magazins
-        self.bullets = bullets
+    def __init__(self):
+        self.magazins = 10
+        self.bullets = 15
 
-    def shot(self, count):
-        pass
+    def shot(self, shot_num):
+        while shot_num > 0 and self.magazins >= 0 and self.bullets != 0:
+            self.bullets -= 1
+            shot_num -= 1
+
+            if self.bullets == 0 and self.magazins != 0:
+                self.magazins -= 1
+                self.bullets = 15
+        #         print(f"magazin reloaded")
+        #         print(f"left shot: {shot_num}, left magazins: {self.magazins}, left bullets: {self.bullets}\n")
+        #
+        # print(f"Finish shooting! left shot: {shot_num}, left magazins: {self.magazins}, left bullets: {self.bullets}")
 
     def reload(self):
-        pass
+        if self.magazins == 0:
+            raise Exception("OutOfMagazins")
+
+        self.magazins -= 1
+        self.bullets = 15
+        # print(f"left magazins: {self.magazins}, left bullets: {self.bullets}")
+
 
     def amount(self):
-        pass
+        return {"magazins": self.magazins, "bullets": self.bullets}
 
 
-def test_shot_with_reload(class_object, shot):
-    class_object.shot(shot)
-    class_object.amount()
+def test_shot_with_reload(class_object, shot_num):
+    class_object.shot(shot_num)
+    print(class_object.amount())
     class_object.reload()
-    class_object.amount()
+    print(class_object.amount())
 
 
-def test_shot_without_reload(class_object, shot):
-    class_object.shot(shot)
-    class_object.amount()
+def test_shot_without_reload(class_object, shot_num):
+    class_object.shot(shot_num)
+    print(class_object.amount())
 
 
 def main():
     pistol = Pistol()
-    test_shot_with_reload(pistol, shot=5)
-    test_shot_without_reload(pistol, shot=15)
+    test_shot_without_reload(pistol, shot_num=144)
+    test_shot_with_reload(pistol, shot_num=5)
+
+
+if __name__ == "__main__":
+    main()
