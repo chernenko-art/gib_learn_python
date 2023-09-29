@@ -18,7 +18,6 @@ import time
 import random
 from lesson_12_1 import Pistol
 from MyExeptions.MyExeptions import OutOfMagazins, HeatException, LockedException
-import pytest
 
 
 class PistolModern(Pistol):
@@ -43,7 +42,7 @@ class PistolModern(Pistol):
 
             if self.is_locked[0]:
                 raise LockedException
-            elif self.current_temperature >= 60:
+            elif self.current_temperature >= self.max_temperature:
                 raise HeatException
 
             if self.current_temperature <= self.max_temperature:
@@ -104,21 +103,38 @@ if __name__ == "__main__":
     main()
 
 
-def test_check_out_of_magazin_exeption():
-    pistol = PistolModern()
-    try:
-        for i in range(11):
-            pistol.reload()
-    except OutOfMagazins as e:
-        assert e
+# ============= TESTS ===============
 
 
-def test_locked_exception():
-    pistol = PistolModern()
-    pistol.locked_chance = 90
-    try:
-        for i in range(100):
-            pistol.shot(40)
-            time.sleep(40)
-    except LockedException as e:
-        assert e
+class TestPistol:
+    def test_check_out_of_magazin_exeption(self):
+        pistol = PistolModern()
+        magazins = pistol.magazins
+        try:
+            for i in range(magazins + 1):
+                pistol.reload()
+        except OutOfMagazins as e:
+            assert e
+        else:
+            assert False, "OutOfMagazins exeption is not worked!"
+
+    def test_locked_exception(self):
+        pistol = PistolModern()
+        pistol.magazins = 1000
+        pistol.max_temperature = 10000
+        try:
+            pistol.shot(1000)
+        except LockedException as e:
+            assert e
+        else:
+            assert False, "LockedException is not worked!"
+
+    def test_heat_exception(self):
+        pistol = PistolModern()
+        pistol.locked_chance = 0
+        try:
+            pistol.shot(41)
+        except HeatException as e:
+            assert e
+        else:
+            assert False, "HeatException is not worked!"
