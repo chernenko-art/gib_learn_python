@@ -19,18 +19,13 @@ class Pistol:
         self.magazins = 10
         self.bullets = 15
 
-    def shot(self, shot_num):
-        while shot_num > 0 and self.magazins >= 0 and self.bullets != 0:
+    def shot(self, shot):
+        while shot > 0 and self.magazins >= 0 and self.bullets != 0:
             self.bullets -= 1
-            shot_num -= 1
+            shot -= 1
 
-            if self.bullets == 0 and self.magazins != 0:
-                self.magazins -= 1
-                self.bullets = 15
-        #         print(f"magazin reloaded")
-        #         print(f"left shot: {shot_num}, left magazins: {self.magazins}, left bullets: {self.bullets}\n")
-        #
-        # print(f"Finish shooting! left shot: {shot_num}, left magazins: {self.magazins}, left bullets: {self.bullets}")
+            if self.bullets == 0:
+                self.reload()
 
     def reload(self):
         if self.magazins == 0:
@@ -38,29 +33,32 @@ class Pistol:
 
         self.magazins -= 1
         self.bullets = 15
-        # print(f"left magazins: {self.magazins}, left bullets: {self.bullets}")
-
 
     def amount(self):
         return {"magazins": self.magazins, "bullets": self.bullets}
 
 
-def test_shot_with_reload(class_object, shot_num):
-    class_object.shot(shot_num)
-    print(class_object.amount())
+def test_shot_with_reload(class_object):
+    print(f'======Start test_shot_with_reload=====')
+    class_object.shot(shot=5)
+    print(f'End shooting: {class_object.amount()}')
+    print("User reload init")
     class_object.reload()
-    print(class_object.amount())
+    print(f'End shooting: {class_object.amount()}')
 
 
-def test_shot_without_reload(class_object, shot_num):
-    class_object.shot(shot_num)
-    print(class_object.amount())
+def test_shot_without_reload(class_object):
+    print(f'======Start test_shot_without_reload=====')
+    class_object.shot(shot=100)
+    print(f'End shooting: {class_object.amount()}')
+    class_object.shot(shot=44)
+    print(f'End shooting: {class_object.amount()}')
 
 
 def main():
     pistol = Pistol()
-    test_shot_without_reload(pistol, shot_num=144)
-    test_shot_with_reload(pistol, shot_num=5)
+    test_shot_without_reload(pistol)
+    test_shot_with_reload(pistol)
 
 
 if __name__ == "__main__":

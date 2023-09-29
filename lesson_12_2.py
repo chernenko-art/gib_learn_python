@@ -17,8 +17,6 @@
 import time
 import random
 from lesson_12_1 import Pistol
-from lesson_12_1 import test_shot_without_reload
-from lesson_12_1 import test_shot_with_reload
 
 
 class PistolModern(Pistol):
@@ -28,37 +26,77 @@ class PistolModern(Pistol):
         self.locked = random.choices([True, False], weights=[10, 90])
         self.normal_temperature = 20
         self.max_temperature = 60
-        self.timer = time.perf_counter()
+        self.current_temperature = 20
+        self.shot_time = time.time()
 
-    def shot(self, shot_num):
-        while shot_num > 0 and self.magazins >= 0 and self.bullets != 0:
+    def shot(self, shot):
+        while shot > 0 and self.magazins >= 0 and self.bullets != 0:
+            timer = time.time()
+            time_difference = int(abs(self.shot_time - timer))
+
+            if self.current_temperature > self.normal_temperature and time_difference >= 1:
+                self.current_temperature -= time_difference
+                print(f"Lowed current_temperature on the {time_difference} gradus, current_temperature: {self.current_temperature}")
+
             if self.locked[0]:
                 self.locked = True
                 raise Exception("LockedException")
-            self.bullets -= 1
-            shot_num -= 1
 
-            if self.bullets == 0 and self.magazins != 0:
-                self.magazins -= 1
-                self.bullets = 15
+            if self.current_temperature >= 60:
+                raise Exception("HeatException")
+
+            if self.current_temperature <= self.max_temperature:
+                shot -= 1
+                self.shot_time = time.time()
+                self.current_temperature += 1
+                print(f"Shoot! current_temperature: {self.current_temperature}")
+                self.bullets -= 1
+
+            if self.bullets == 0:
+                self.reload()
 
     def reload(self):
         if self.locked:
             self.locked = random.choices([True, False], weights=[10, 90])
         if self.magazins == 0:
             raise Exception("OutOfMagazins")
-
         self.magazins -= 1
         self.bullets = 15
+        print(f"Reload! left magazins: {self.magazins}")
+
+
+def sleep_between_sots(t):
+    print(f"Sleep {t} seconds")
+    time.sleep(t)
+
+
+def test_shot_with_reload(class_object):
+    print(f'======Start test_shot_with_reload=====')
+    class_object.shot(shot=5)
+    print(class_object.amount())
+    class_object.reload()
+    print(class_object.amount())
+    sleep_between_sots(5)
+    class_object.shot(shot=20)
+
+
+def test_shot_without_reload(class_object):
+    print(f'======Start test_shot_without_reload=====')
+    class_object.shot(shot=20)
+    sleep_between_sots(5)
+    class_object.shot(shot=20)
+    sleep_between_sots(5)
+    class_object.shot(shot=20)
+    sleep_between_sots(5)
+    class_object.shot(shot=20)
+    print(class_object.amount())
 
 
 def main():
     pistol = PistolModern()
-    print(pistol.locked)
-    test_shot_without_reload(pistol, shot_num=100)
-    # test_shot_with_reload(pistol, shot_num=5)
+    test_shot_without_reload(pistol)
+    test_shot_with_reload(pistol)
 
 
 if __name__ == "__main__":
     main()
-
