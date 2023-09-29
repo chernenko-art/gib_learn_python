@@ -15,9 +15,9 @@
 
 class Pistol:
 
-    def __init__(self):
-        self.magazins = 10
-        self.bullets = 15
+    def __init__(self, magazins=10, bullets=15):
+        self.magazins = magazins
+        self.bullets = bullets
 
     def shot(self, shot):
         while shot > 0 and self.magazins >= 0 and self.bullets != 0:

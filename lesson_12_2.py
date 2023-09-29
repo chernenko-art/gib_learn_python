@@ -22,13 +22,13 @@ from MyExeptions.MyExeptions import OutOfMagazins, HeatException, LockedExceptio
 
 class PistolModern(Pistol):
 
-    def __init__(self):
-        super().__init__()
-        self.is_locked = [False]
-        self.locked_chance = 10
-        self.normal_temperature = 20
-        self.max_temperature = 60
-        self.current_temperature = 20
+    def __init__(self, magazins=10, bullets=15, is_locked=False, locked_chance=10, normal_temperature=20, max_temperature=60):
+        super().__init__(magazins, bullets)
+        self.is_locked = is_locked
+        self.locked_chance = locked_chance
+        self.normal_temperature = normal_temperature
+        self.max_temperature = max_temperature
+        self.current_temperature = normal_temperature
         self.shot_time = time.time()
 
     def shot(self, shot):
@@ -40,14 +40,14 @@ class PistolModern(Pistol):
                 self.current_temperature -= time_difference
                 print(f"Lowed current_temperature on the {time_difference} gradus, current_temperature: {self.current_temperature}")
 
-            if self.is_locked[0]:
+            if self.is_locked:
                 raise LockedException
             elif self.current_temperature >= self.max_temperature:
                 raise HeatException
 
             if self.current_temperature <= self.max_temperature:
                 shot -= 1
-                self.is_locked = random.choices([True, False], weights=[self.locked_chance, 100 - self.locked_chance])
+                self.is_locked = (random.choices([True, False], weights=[self.locked_chance, 100 - self.locked_chance]))[0]
                 self.shot_time = time.time()
                 self.current_temperature += 1
                 print(f"Shoot! current_temperature: {self.current_temperature}")
@@ -58,7 +58,7 @@ class PistolModern(Pistol):
 
     def reload(self):
         if self.is_locked:
-            self.is_locked = [False]
+            self.is_locked = False
         if self.magazins == 0:
             raise OutOfMagazins
         self.magazins -= 1
@@ -101,40 +101,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-# ============= TESTS ===============
-
-
-class TestPistol:
-    def test_check_out_of_magazin_exeption(self):
-        pistol = PistolModern()
-        magazins = pistol.magazins
-        try:
-            for i in range(magazins + 1):
-                pistol.reload()
-        except OutOfMagazins as e:
-            assert e
-        else:
-            assert False, "OutOfMagazins exeption is not worked!"
-
-    def test_locked_exception(self):
-        pistol = PistolModern()
-        pistol.magazins = 1000
-        pistol.max_temperature = 10000
-        try:
-            pistol.shot(1000)
-        except LockedException as e:
-            assert e
-        else:
-            assert False, "LockedException is not worked!"
-
-    def test_heat_exception(self):
-        pistol = PistolModern()
-        pistol.locked_chance = 0
-        try:
-            pistol.shot(41)
-        except HeatException as e:
-            assert e
-        else:
-            assert False, "HeatException is not worked!"

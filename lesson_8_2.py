@@ -12,13 +12,14 @@
 
 
 import json
+from data.files_path import lesson8
 
 
 class UserDs:
-    def __init__(self, db_file_path):
-        self.db_file_path = db_file_path
-        self.new_db_path = "lesson8_new_" + self.db_file_path
-        self.county_adult_age_file_path = "lesson8_conty_adult_age.json"
+    def __init__(self):
+        self.db_file_path = lesson8["db_file_path"]
+        self.new_db_path = lesson8["new_db_path"]
+        self.county_adult_age_file_path = lesson8["county_adult_age_file_path"]
         self.id = 'id'
         self.name = 'name'
         self.fname = 'fname'
@@ -78,7 +79,7 @@ class UserDs:
 
 
 def main():
-    user_ds = UserDs(db_file_path="lesson8_users_ds.json")
+    user_ds = UserDs()
 
     print("\n8. Start the correct_all_records() function:")
     user_ds.correct_all_records()

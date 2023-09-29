@@ -23,6 +23,7 @@
 
 
 import json
+from data.files_path import lesson8
 
 county_adult_age = {
     'Thailand': 20,
@@ -38,8 +39,8 @@ def _get_db_list(db_file_path):
 
 
 class UserDs:
-    def __init__(self, db_path):
-        self.db = _get_db_list(db_path)
+    def __init__(self):
+        self.db = _get_db_list(lesson8["db_file_path"])
         self.id = 'id'
         self.name = 'name'
         self.fname = 'fname'
@@ -94,7 +95,7 @@ class UserDs:
 
 
 def main():
-    user_ds = UserDs(db_path="lesson8_users_ds.json")
+    user_ds = UserDs()
     all_users_from_county = user_ds.get_all_users_from_county(county="Russia")
     all_users_equal_age = user_ds.get_all_users_equal_age(age=29)
     all_users_older_age = user_ds.get_all_users_older_age(age=29)

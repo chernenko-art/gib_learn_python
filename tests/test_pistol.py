@@ -1,3 +1,8 @@
+import sys
+import os
+
+sys.path.append(f"{os.path.dirname(os.path.abspath(__file__))}/..")
+
 from lesson_12_2 import PistolModern
 from MyExeptions.MyExeptions import LockedException, HeatException, OutOfMagazins
 
@@ -5,9 +10,8 @@ from MyExeptions.MyExeptions import LockedException, HeatException, OutOfMagazin
 class TestPistol:
     def test_check_out_of_magazin_exeption(self):
         pistol = PistolModern()
-        magazins = pistol.magazins
         try:
-            for i in range(magazins + 1):
+            for i in range(pistol.magazins + 1):
                 pistol.reload()
         except OutOfMagazins as e:
             assert e
@@ -15,9 +19,7 @@ class TestPistol:
             assert False, "OutOfMagazins exeption is not worked!"
 
     def test_locked_exception(self):
-        pistol = PistolModern()
-        pistol.magazins = 1000
-        pistol.max_temperature = 10000
+        pistol = PistolModern(magazins=1000, max_temperature=10000)
         try:
             pistol.shot(1000)
         except LockedException as e:
@@ -26,8 +28,7 @@ class TestPistol:
             assert False, "LockedException is not worked!"
 
     def test_heat_exception(self):
-        pistol = PistolModern()
-        pistol.locked_chance = 0
+        pistol = PistolModern(locked_chance=0)
         try:
             pistol.shot(41)
         except HeatException as e:
