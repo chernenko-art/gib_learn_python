@@ -1,10 +1,12 @@
 import sys
 import os
+import time
+import pytest
 
 sys.path.append(f"{os.path.dirname(os.path.abspath(__file__))}/..")
 
 from lesson_12_2 import PistolModern
-from MyExeptions.MyExeptions import LockedException, HeatException, OutOfMagazins
+from custom_exeptions.MyExeptions import LockedException, HeatException, OutOfMagazins
 
 
 class TestPistol:
@@ -35,3 +37,20 @@ class TestPistol:
             assert e
         else:
             assert False, "HeatException is not worked!"
+
+    @pytest.mark.parametrize("shot_num, sleep_time", [(1, 5), (1, 1), (2, 1), (1, 2)])  # temperature value: >20, <20, 20, 19, 21
+    def test_normal_temperature(self, shot_num, sleep_time):
+        pistol = PistolModern(locked_chance=0)
+        pistol.shot(shot_num)
+        time.sleep(sleep_time)
+        pistol.shot(shot_num)
+        assert pistol.current_temperature >= 20, "Normal temperature >= 20"
+
+    def test_reload(self):
+        pistol = PistolModern(locked_chance=0, max_temperature=1000)
+        magazins = pistol.magazins
+        pistol.shot(15)
+        assert pistol.magazins == magazins - 1, "Auto reload is worked"
+        pistol.shot(5)
+        pistol.reload()
+        assert pistol.bullets == 15, "Manual reload is worked"

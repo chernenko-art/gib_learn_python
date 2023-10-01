@@ -17,7 +17,7 @@
 import time
 import random
 from lesson_12_1 import Pistol
-from MyExeptions.MyExeptions import OutOfMagazins, HeatException, LockedException
+from custom_exeptions.MyExeptions import OutOfMagazins, HeatException, LockedException
 
 
 class PistolModern(Pistol):
@@ -34,11 +34,12 @@ class PistolModern(Pistol):
     def shot(self, shot):
         while shot > 0 and self.magazins >= 0 and self.bullets != 0:
             timer = time.time()
-            time_difference = int(abs(self.shot_time - timer))
+            time_diff = abs(self.shot_time - timer)
 
-            if self.current_temperature > self.normal_temperature and time_difference >= 1:
-                self.current_temperature -= time_difference
-                print(f"Lowed current_temperature on the {time_difference} gradus, current_temperature: {self.current_temperature}")
+            if self.current_temperature > self.normal_temperature and time_diff >= 1:
+                temperature_dif = abs(self.current_temperature - time_diff)
+                self.current_temperature = temperature_dif if temperature_dif >= self.normal_temperature else self.normal_temperature
+                print(f"Lowed current_temperature on the {int(time_diff)} gradus, current_temperature: {int(self.current_temperature)}")
 
             if self.is_locked:
                 raise LockedException
@@ -50,7 +51,7 @@ class PistolModern(Pistol):
                 self.is_locked = (random.choices([True, False], weights=[self.locked_chance, 100 - self.locked_chance]))[0]
                 self.shot_time = time.time()
                 self.current_temperature += 1
-                print(f"Shoot! current_temperature: {self.current_temperature}")
+                print(f"Shoot! current_temperature: {int(self.current_temperature)}")
                 self.bullets -= 1
 
             if self.bullets == 0:
@@ -71,8 +72,8 @@ def sleep_between_sots(t):
     time.sleep(t)
 
 
-def shot_with_reload(class_object):
-    print(f'======Start test_shot_with_reload=====')
+def shot_with_manual_reload(class_object):
+    print(f'======Start shot_with_manual_reload=====')
     class_object.shot(shot=5)
     print(class_object.amount())
     class_object.reload()
@@ -82,7 +83,7 @@ def shot_with_reload(class_object):
 
 
 def shot_without_reload(class_object):
-    print(f'======Start test_shot_without_reload=====')
+    print(f'======Start shot_without_reload=====')
     class_object.shot(shot=20)
     sleep_between_sots(5)
     class_object.shot(shot=20)
@@ -96,7 +97,7 @@ def shot_without_reload(class_object):
 def main():
     pistol = PistolModern()
     shot_without_reload(pistol)
-    shot_with_reload(pistol)
+    shot_with_manual_reload(pistol)
 
 
 if __name__ == "__main__":
