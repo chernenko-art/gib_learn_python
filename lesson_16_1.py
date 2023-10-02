@@ -11,22 +11,36 @@
 class Queue:
 
     def __init__(self):
-        self.first = 0
-        self.last = 0
+        self.queue = []
 
     def add(self, num):
-        pass
+        self.queue.append(num)
 
     def get_last(self):
-        pass
+        if self.queue:
+            return self.queue.pop()
+        else:
+            return None
 
     def get_first(self):
-        pass
+        if self.queue:
+            return self.queue.pop(0)
+        else:
+            return None
 
 
 def main():
     queue = Queue()
-    pass
+    queue.add(5)
+    queue.add(6)
+    print(queue.get_first())
+    print(queue.get_first())
+    print(queue.get_first())
+    queue.add(5)
+    queue.add(6)
+    print(queue.get_last())
+    print(queue.get_last())
+    print(queue.get_last())
 
 
 if __name__ == "__main__":
