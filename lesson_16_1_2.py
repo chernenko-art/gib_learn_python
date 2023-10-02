@@ -28,19 +28,47 @@ class Queue:
         else:
             return None
 
+# "Вам надо расширить этот класс следующими методами:
+# append() - в отличие от add() добавляет число в начало очереди, а не в конец.
+# reverse() - переворачивает очередь - последнее число становится первым, первое - последним."
+
+    def append(self, num):
+        if self.queue:
+            self.queue.insert(0, num)
+        else:
+            self.queue.append(num)
+
+    def reverse(self):
+        if self.queue:
+            self.queue.reverse()
+
 
 def main():
     queue = Queue()
+
     queue.add(5)
     queue.add(6)
     print(queue.get_first())
     print(queue.get_first())
     print(queue.get_first())
+
     queue.add(5)
     queue.add(6)
     print(queue.get_last())
     print(queue.get_last())
     print(queue.get_last())
+
+    # advansed level
+    queue.append(5)
+    queue.append(6)
+    print(queue.get_first())
+    print(queue.get_first())
+
+    queue.append(5)
+    queue.append(6)
+    queue.reverse()
+    print(queue.get_first())
+    print(queue.get_first())
 
 
 if __name__ == "__main__":
