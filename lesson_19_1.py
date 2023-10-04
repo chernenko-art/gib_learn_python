@@ -5,13 +5,16 @@
 
 class SearchNum:
 
-    def search_num(self, array):
-        pass
+    @staticmethod
+    def search_num(array):
+        if 13 in array and 41 in array:
+            return True
+        else:
+            return False
 
 
 def main():
-    class_object = SearchNum()
-    class_object.search_num([1, 2, 40, 555, 13, 49, 53, 41, 324567])
+    print(SearchNum.search_num([1, 2, 40, 555, 13, 49, 53, 41, 324567]))
 
 
 if __name__ == '__main__':
