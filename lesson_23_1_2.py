@@ -8,13 +8,28 @@
 # Приводить число к строке нельзя. :)"
 
 
-def main(num, array):
+def lesson_23_1(num, array):
     result = True
 
     while num > 0:
         for arr in array[::-1]:
-            dist = num % 10
-            if len(arr) != dist:
+            if len(arr) != num % 10:
+                result = False
+            num //= 10
+
+    return result
+
+# "У вас все то же самое, но у вас массив массивов чисел. И надо убедиться, что сумма элементов внутренних
+# массивов равна соответствующему числу.
+# То есть если пришло число 73, то в массиве должно быть два массива. В первом должно быть 7 чисел, сумма
+# которых тоже 7. А во втором 3 числа, сумма которых 3."
+
+def lesson_23_2(num, array):
+    result = True
+
+    while num > 0:
+        for arr in array[::-1]:
+            if len(arr) != num % 10 or sum(arr) != num % 10:
                 result = False
             num //= 10
 
@@ -22,8 +37,12 @@ def main(num, array):
 
 
 if __name__ == '__main__':
-    print(main(456, [
+    print("lesson_23_1: ", lesson_23_1(456, [
         (1, 2, 3, 4),
         (1, 2, 3, 4, 5),
-        (1, 2, 3, 4, 5, 6)
-    ]))
+        (1, 2, 3, 4, 5, 6)]))
+
+    print("lesson_23_2: ", lesson_23_2(456, [
+        (1, 1, 1, 1),
+        (1, 1, 1, 1, 1),
+        (1, 1, 1, 1, 1, 1)]))
