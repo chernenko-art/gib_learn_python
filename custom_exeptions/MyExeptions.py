@@ -26,3 +26,9 @@ class BadSumException(Exception):
 
     def __str__(self):
         return "Not enough money to give out!"
+
+
+class CannotParseException(Exception):
+
+    def __str__(self):
+        return "Cannot parse argument!"
