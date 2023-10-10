@@ -38,3 +38,9 @@ class BadParamsException(Exception):
 
     def __str__(self):
         return "Params must be >= 0"
+
+
+class BadGenderException(Exception):
+
+    def __str__(self):
+        return "Что ты такое??"
