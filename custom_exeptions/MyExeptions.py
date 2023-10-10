@@ -32,3 +32,9 @@ class CannotParseException(Exception):
 
     def __str__(self):
         return "Cannot parse argument!"
+
+
+class BadParamsException(Exception):
+
+    def __str__(self):
+        return "Params must be >= 0"
