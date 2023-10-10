@@ -50,8 +50,7 @@ def replace_on_previous_letter(text):
     return new_string
 
 
-
-def replase_text_register(text):
+def replace_text_register(text):
     new_string = ''
     for symbol in text:
         if symbol.isalpha():
@@ -65,11 +64,11 @@ def replase_text_register(text):
 
 
 def encoder(text):
-    return(replase_text_register(replace_on_next_letter(text)))
+    return(replace_text_register(replace_on_next_letter(text)))
 
 
 def decryptor(text):
-    return(replase_text_register(replace_on_previous_letter(text)))
+    return(replace_text_register(replace_on_previous_letter(text)))
 
 
 def main(text):

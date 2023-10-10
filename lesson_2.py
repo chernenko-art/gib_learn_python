@@ -50,6 +50,7 @@ except JSONDecodeError as e:
 # user_max_length = 35
 # user_words_list = json.loads('["волшебники", "Гарри Поттер"]')
 
+
 def text_length(text):
     return len(text)
 

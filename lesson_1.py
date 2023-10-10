@@ -19,6 +19,7 @@ import re
 
 username = getpass.getuser()
 
+
 def hello_user(hour, name=username):
     if 0 <= hour < 5:
         print(f"Доброй ночи, {name}")
@@ -28,6 +29,7 @@ def hello_user(hour, name=username):
         print(f"Добрый день, {name}")
     else:
         print(f"Добрый вечер, {name}")
+
 
 def run_hello_local_time():
     current_hour = int(time.strftime("%H"))
