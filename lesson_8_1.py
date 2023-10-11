@@ -40,57 +40,30 @@ def _get_db_list(db_file_path):
 
 class UserDs:
     def __init__(self):
-        self.db = _get_db_list(lesson8["db_file_path"])
-        self.id = 'id'
-        self.name = 'name'
-        self.fname = 'fname'
-        self.county = 'county'
-        self.age = 'age'
-        self.is_teen = 'is_teen'
-
-    def _db_searching(self, key, value, older=None, younger=None):
-        new_array = []
-        db = self.db
-        for i in db:
-            if older:
-                if i[key] > value:
-                    new_array.append(i)
-            elif younger:
-                if i[key] <= value:
-                    new_array.append(i)
-            else:
-                if i[key] == value:
-                    new_array.append(i)
-        return new_array
+        self.users = _get_db_list(lesson8["db_file_path"])
 
     def get_all_users_from_county(self, county):
-        return self._db_searching(key=self.county, value=county)
+        return [user for user in self.users if user['county'] == county]
 
     def get_all_users_equal_age(self, age):
-        return self._db_searching(key=self.age, value=age)
+        return [user for user in self.users if user['age'] == age]
 
     def get_all_users_older_age(self, age):
-        return self._db_searching(key=self.age, value=age, older=True)
+        return [user for user in self.users if user['age'] > age]
 
     def get_all_users_younger_or_equal_age(self, age):
-        return self._db_searching(key=self.age, value=age, younger=True)
+        return [user for user in self.users if user['age'] <= age]
 
-    def get_all_adults(self, is_teen=False):
-        return self._db_searching(key=self.is_teen, value=is_teen)
+    def get_all_adults(self):
+        return [user for user in self.users if not user['is_teen']]
 
-    def get_all_teens(self, is_teen=True):
-        return self._db_searching(key=self.is_teen, value=is_teen)
+    def get_all_teens(self):
+        return [user for user in self.users if user['is_teen']]
 
     def get_collisions(self):
-        collisions_list = []
-        db = self.db
-        for i in db:
-            if i[self.is_teen]:
-                if county_adult_age[i[self.county]] < i[self.age]:
-                    collisions_list.append(i)
-            else:
-                if county_adult_age[i[self.county]] > i[self.age]:
-                    collisions_list.append(i)
+        users = self.users
+        collisions_list = [user for user in users if user['is_teen'] and county_adult_age[user['county']] < user['age']
+                           or county_adult_age[user['county']] > user['age']]
         return collisions_list
 
 

@@ -21,9 +21,7 @@ except ValueError as e:
 def main(number):
     whole_number = number // 10
     remainder = number % 10
-    if whole_number == remainder:
-        return True
-    elif whole_number + remainder == 10:
+    if whole_number == remainder or whole_number + remainder == 10:
         return True
     else:
         return False

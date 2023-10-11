@@ -25,12 +25,12 @@ salt = 'MyUniqueSault'
 
 
 def read_json_data_from_file(file):
-    if not os.path.isfile(db_file_path):
+    if not os.path.isfile(file):
         json_data = []
-        with open(db_file_path, 'w+') as f:
+        with open(file, 'w+') as f:
             json.dump(json_data, f)
     else:
-        with open(db_file_path, 'r') as f:
+        with open(file, 'r') as f:
             json_data = json.load(f)
     return json_data
 
@@ -63,8 +63,8 @@ def search_hash(hash):
 
 def main(text):
     hash_function(text)
-    salt, user_text = search_hash(user_hash)
-    print("Хеш найден:\n", f"coль: {salt}\n", f"строка: {user_text}\n")
+    result_salt, result_text = search_hash(user_hash)
+    print("Хеш найден:\n", f"coль: {result_salt}\n", f"строка: {result_text}\n")
 
 
 if __name__ == "__main__":

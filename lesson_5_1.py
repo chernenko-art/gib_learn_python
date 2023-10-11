@@ -64,11 +64,11 @@ def replace_text_register(text):
 
 
 def encoder(text):
-    return(replace_text_register(replace_on_next_letter(text)))
+    return replace_text_register(replace_on_next_letter(text))
 
 
 def decryptor(text):
-    return(replace_text_register(replace_on_previous_letter(text)))
+    return replace_text_register(replace_on_previous_letter(text))
 
 
 def main(text):

@@ -35,6 +35,7 @@ def main(array, number):
         for num in array[i+1:]:
             if number == array[i] + num:
                 return True
+    return False
 
 
 if __name__ == "__main__":

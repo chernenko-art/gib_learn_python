@@ -1,5 +1,6 @@
 # "Для тех, кто хочет посложнее, анализатор текста должен вести себя несколько иначе. Он должен получать на вход три параметра:
-# анализируемый текст, максимально допустимую длину, список запрещенных слов. Результатом работы этой функции должен быть JSON, в котором будут следующие поля:
+# анализируемый текст, максимально допустимую длину, список запрещенных слов. Результатом работы этой функции должен быть JSON, в котором будут
+# следующие поля:
 #
 # - ""length"" - длина строки
 # - ""pure_length"" - длина строки без учета пробелов
@@ -32,6 +33,8 @@ from json.decoder import JSONDecodeError
 
 
 user_text = input("Введите текст:\n")
+if not user_text:
+    raise Exception("Пустая строка с текстом, введите текст.")
 
 try:
     user_max_length = int(input("Введите максимальную длину текста:\n"))
@@ -40,7 +43,8 @@ except ValueError as e:
     raise e
 
 try:
-    user_words_list = json.loads(input('Введите список запрещенных слов в формате ["волшебники", "Гарри Поттер"]:\n'))
+    words_exception = input('Введите список запрещенных слов в формате ["волшебники", "Гарри Поттер"]:\n')
+    user_words_list = json.loads(words_exception) if words_exception else []
 except JSONDecodeError as e:
     print('Неверный формат списка!')
     raise e
@@ -51,22 +55,12 @@ except JSONDecodeError as e:
 # user_words_list = json.loads('["волшебники", "Гарри Поттер"]')
 
 
-def text_length(text):
-    return len(text)
-
-
 def text_length_without_spaces(text):
     return len(text.replace(' ', ''))
 
 
-def num_text_sumbols_is_even(text):
-    num_text_sumbols = text_length(text)
-    return num_text_sumbols % 2 == 0
-
-
 def text_length_even_or_not(text):
-    num_text_sumbols = text_length(text)
-    if num_text_sumbols % 2 == 0:
+    if len(text) % 2 == 0:
         return("Количество символов в тексте четное")
     else:
         return ("Количество символов в тексте нечетное")
@@ -87,7 +81,7 @@ def pure_short_text(text, max_length, words_list):
 
 
 def main(text, max_length, words_list):
-    result_dict = {'length': text_length(text), 'pure_length': text_length_without_spaces(text),
+    result_dict = {'length': len(text), 'pure_length': text_length_without_spaces(text),
                    'origin_text': str(text), 'pure_text': replace_forbidden_words(text, words_list),
                    'pure_short_text': pure_short_text(text, max_length, words_list)}
     print(result_dict)
