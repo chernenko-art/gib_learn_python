@@ -12,6 +12,8 @@
 #
 # amount() - возвращается JSON, например: {""magazins"": 5, ""bullets"": 3} - это значит, что у нас есть еще 5 новых магазинов и три патрона в текущем."
 
+from custom_exeptions.MyExeptions import OutOfMagazins
+
 
 class Pistol:
 
@@ -19,18 +21,14 @@ class Pistol:
         self.magazins = magazins
         self.bullets = bullets
 
-    def shot(self, shot):
-        while shot > 0 and self.magazins >= 0 and self.bullets != 0:
-            self.bullets -= 1
-            shot -= 1
-
-            if self.bullets == 0:
-                self.reload()
+    def shot(self):
+        if self.bullets == 0:
+            self.reload()
+        self.bullets -= 1
 
     def reload(self):
         if self.magazins == 0:
-            raise Exception("OutOfMagazins")
-
+            raise OutOfMagazins
         self.magazins -= 1
         self.bullets = 15
 
@@ -40,7 +38,8 @@ class Pistol:
 
 def test_shot_with_reload(class_object):
     print(f'======Start test_shot_with_reload=====')
-    class_object.shot(shot=5)
+    for _ in range(5):
+        class_object.shot()
     print(f'End shooting: {class_object.amount()}')
     print("User reload init")
     class_object.reload()
@@ -49,9 +48,11 @@ def test_shot_with_reload(class_object):
 
 def test_shot_without_reload(class_object):
     print(f'======Start test_shot_without_reload=====')
-    class_object.shot(shot=100)
+    for _ in range(100):
+        class_object.shot()
     print(f'End shooting: {class_object.amount()}')
-    class_object.shot(shot=44)
+    for _ in range(44):
+        class_object.shot()
     print(f'End shooting: {class_object.amount()}')
 
 
