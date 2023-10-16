@@ -23,7 +23,7 @@ class TestPistol:
     def test_locked_exception(self):
         pistol = PistolModern(magazins=1000, max_temperature=10000)
         try:
-            pistol.shot(1000)
+            pistol.shot_auto(1000)
         except LockedException as e:
             assert e
         else:
@@ -32,7 +32,7 @@ class TestPistol:
     def test_heat_exception(self):
         pistol = PistolModern(locked_chance=0)
         try:
-            pistol.shot(41)
+            pistol.shot_auto(41)
         except HeatException as e:
             assert e
         else:
@@ -41,16 +41,16 @@ class TestPistol:
     @pytest.mark.parametrize("shot_num, sleep_time", [(1, 5), (1, 1), (2, 1), (1, 2)])  # temperature value: >20, <20, 20, 19, 21
     def test_normal_temperature(self, shot_num, sleep_time):
         pistol = PistolModern(locked_chance=0)
-        pistol.shot(shot_num)
+        pistol.shot_auto(shot_num)
         time.sleep(sleep_time)
-        pistol.shot(shot_num)
+        pistol.shot_auto(shot_num)
         assert pistol.current_temperature >= 20, "Normal temperature >= 20"
 
     def test_reload(self):
         pistol = PistolModern(locked_chance=0, max_temperature=1000)
         magazins = pistol.magazins
-        pistol.shot(15)
+        pistol.shot_auto(15)
         assert pistol.magazins == magazins - 1, "Auto reload is worked"
-        pistol.shot(5)
+        pistol.shot_auto(5)
         pistol.reload()
         assert pistol.bullets == 15, "Manual reload is worked"

@@ -31,7 +31,10 @@ class PistolModern(Pistol):
         self.current_temperature = normal_temperature
         self.shot_time = time.time()
 
-    def shot(self, shot):
+    def shot_auto(self, shot):
+
+        """ This method can fire in bursts """
+
         while shot > 0 and self.magazins >= 0 and self.bullets != 0:
             timer = time.time()
             time_diff = abs(self.shot_time - timer)
@@ -74,23 +77,23 @@ def sleep_between_sots(t):
 
 def shot_with_manual_reload(class_object):
     print(f'======Start shot_with_manual_reload=====')
-    class_object.shot(shot=5)
+    class_object.shot_auto(shot=5)
     print(class_object.amount())
     class_object.reload()
     print(class_object.amount())
     sleep_between_sots(5)
-    class_object.shot(shot=20)
+    class_object.shot_auto(shot=20)
 
 
 def shot_without_reload(class_object):
     print(f'======Start shot_without_reload=====')
-    class_object.shot(shot=20)
+    class_object.shot_auto(shot=20)
     sleep_between_sots(5)
-    class_object.shot(shot=20)
+    class_object.shot_auto(shot=20)
     sleep_between_sots(5)
-    class_object.shot(shot=20)
+    class_object.shot_auto(shot=20)
     sleep_between_sots(5)
-    class_object.shot(shot=20)
+    class_object.shot_auto(shot=20)
     print(class_object.amount())
 
 
