@@ -49,8 +49,8 @@ class TestPistol:
     def test_reload(self):
         pistol = PistolModern(locked_chance=0, max_temperature=1000)
         magazins = pistol.magazins
-        pistol.shot_auto(15)
+        pistol.shot_auto(16)
         assert pistol.magazins == magazins - 1, "Auto reload is worked"
-        pistol.shot_auto(5)
+        pistol.shot_auto(4)
         pistol.reload()
         assert pistol.bullets == 15, "Manual reload is worked"

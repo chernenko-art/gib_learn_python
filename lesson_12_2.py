@@ -31,13 +31,16 @@ class PistolModern(Pistol):
         self.current_temperature = normal_temperature
         self.shot_time = time.time()
 
-    def shot_auto(self, shot):
+    def shot_auto(self, shot=1):
 
         """ This method can fire in bursts """
 
-        while shot > 0 and self.magazins >= 0 and self.bullets != 0:
+        while shot > 0:
             timer = time.time()
             time_diff = abs(self.shot_time - timer)
+
+            if self.bullets == 0:
+                self.reload()
 
             if self.current_temperature > self.normal_temperature and time_diff >= 1:
                 temperature_dif = abs(self.current_temperature - time_diff)
@@ -56,9 +59,6 @@ class PistolModern(Pistol):
                 self.current_temperature += 1
                 print(f"Shoot! current_temperature: {int(self.current_temperature)}")
                 self.bullets -= 1
-
-            if self.bullets == 0:
-                self.reload()
 
     def reload(self):
         if self.is_locked:
